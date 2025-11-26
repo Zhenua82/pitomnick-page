@@ -4,11 +4,17 @@ import Layout from '../components/Layout';
 import PlantCard from '../components/PlantCard';
 import { plants } from '../data/plants';
 import styles from '../styles/Home.module.css';
+import Head from 'next/head';
+import { title } from 'process';
 
 const HomePage: React.FC = () => {
   const items = Object.values(plants);
   return (
     <Layout>
+      <Head>
+        <title>Главная страница питомника в Анапе</title>
+        <meta name="description" content="Описание главной страницы питомника растений в Анапе" />
+      </Head>
       <section className={styles.hero}>
         <h1>Питомник хвойных растений</h1>
         <p>Короткое приветствие — лучшие саженцы ели, сосны и можжевельника.</p>
