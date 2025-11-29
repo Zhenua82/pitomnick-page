@@ -4,11 +4,18 @@ import Layout from '../components/Layout';
 import PlantCard from '../components/PlantCard';
 import { plants } from '../data/plants';
 import styles from '../styles/Home.module.css';
+import Head from 'next/head';
 
 const HomePage: React.FC = () => {
   const items = Object.values(plants);
   return (
     <Layout>
+      <Head>
+        <title>Питомник хвойных растений в Анапе — купить саженцы и растения</title>
+        <meta
+          name="description" content="Большой выбор хвойных саженцев и растений в питомнике Анапы. Заказать саженцы онлайн с доставкой по региону. Гарантия качества и лучшие цены!"
+        />
+      </Head>
       <section className={styles.hero}>
         <h1>Питомник хвойных растений</h1>
         <p>Короткое приветствие — лучшие саженцы ели, сосны и можжевельника.</p>
