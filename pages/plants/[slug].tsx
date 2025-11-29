@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../store/cartSlice";
 import { RootState } from "@/store";
 import { useHoldButton2 } from "@/hooks/useHoldButton2";
+import Head from "next/head";
 
 type Props = {
   plant: Plant | null;
@@ -84,6 +85,12 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
 
   return (
     <Layout>
+      <Head>
+        <title>{plant.title} — купить саженцы в питомнике Анапы</title>
+        <meta
+          name="description" content={`Покупайте саженцы "${plant.title}" в питомнике Анапы. Высокое качество, гарантированная доставка. Заказывайте прямо сейчас!`}
+        />
+      </Head>
       <div className={styles.header}>
         <h1>{plant.title}</h1>
         <p className={styles.short}>{plant.opisanie}</p>
