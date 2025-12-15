@@ -97,52 +97,6 @@
 .details ul{ padding-left:18px; color:var(--muted) }
 .actions{ margin-top:16px; display:flex; gap:8px; align-items:center; }
 
-/* Кнопка звонка: */
-/* .buttonContainer {
-  margin-top: 100px; 
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
-  width: 100%; 
-}
-.phoneButton {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #4CAF50;
-  border: 13px solid #fdfffe; 
-  background-image: url('../public/phone2.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 60%;
-  cursor: pointer;
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.08),
-    0 3px 8px rgba(0, 0, 0, 0.05);
-  transition:
-    transform 0.25s ease,
-    background-color 0.25s ease,
-    box-shadow 0.25s ease,
-    filter 0.25s ease;
-}
-.phoneButton:hover,
-.phoneButton:active {
-  transform: scale(1.08);
-  background-color: #449d48;
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.12),
-    0 4px 12px rgba(0, 0, 0, 0.08);
-  filter: brightness(0.95);
-}
-@media (max-width: 600px) {
-  .phoneButton {
-    width: 120px;
-    height: 120px;
-    background-size: 55%;
-  }
-} */
-
 /* Кнопки добавления: */
 .qtyRow {
   margin: 10px 0;

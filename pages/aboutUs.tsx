@@ -1,14 +1,3 @@
-// import YandexMap from '@/components/YandexMap';
-
-// export default function AboutUs() {
-
-//   return (
-//     <>
-//       <h1>О нас:</h1>
-//       <YandexMap/>
-//     </>
-//   );
-// }
 import React from 'react';
 import YandexMap from '@/components/YandexMap';
 import styles from '@/styles/About.module.css';

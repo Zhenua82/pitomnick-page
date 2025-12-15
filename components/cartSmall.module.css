@@ -15,23 +15,6 @@
   animation: slideIn 0.25s ease-out;
 }
 
-
-/* Кнопка-крестик */
-/* .modalCloseIcon {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #777;
-  transition: 0.2s;
-} */
-
-/* .modalCloseIcon:hover {
-  color: #000;
-} */
-
 /* Кнопка "Оформить заказ" */
 .orderButton {
   margin-top: 15px;

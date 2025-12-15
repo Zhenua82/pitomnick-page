@@ -10,9 +10,7 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  /* background-color: #4CAF50; */
   background-color: var(--cnopkaPok);
-  /* border: 13px solid #e6f5e9; */
   border: 13px solid #fdfffe;      /* мягкий светлый ободок */
   background-image: url('../public/phone2.svg');
   background-repeat: no-repeat;
@@ -34,7 +32,6 @@
 .phoneButton:active {
   transform: scale(1.08);
   /* Чуть более тёмный зелёный */
-  /* background-color: #449d48; */
   background-color: var(--cnopkaNazh);
   /* Усиление тени при ховере */
   box-shadow:
@@ -46,25 +43,8 @@
 /* =========================================
    Адаптация кнопки
 ========================================= */
-/* Планшеты < 1000px — увеличиваем минимальную ширину карточек */
-@media (max-width: 1000px) {
-  /* .buttonContainer {
-    margin-top: 30px; 
-  } */
-}
-
-/* Узкие планшеты < 750px */
-@media (max-width: 750px) {
-  /* .buttonContainer {
-    margin-top: 20px; 
-  } */
-}
-
 /* Мобильные < 600px */
 @media (max-width: 600px) {
-  /* .buttonContainer {
-    margin-top: 10px; 
-  } */
   .phoneButton {
     width: 120px;
     height: 120px;

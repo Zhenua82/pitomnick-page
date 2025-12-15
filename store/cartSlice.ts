@@ -1,97 +1,5 @@
-// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import type { AgeKey, Plant } from "../data/plants";
-
-// export type CartItem = {
-//   slug: string;
-//   age: AgeKey;
-//   title: string;
-//   price: number;
-//   photo: string;
-//   quantity: number;
-// };
-
-// type CartState = {
-//   items: CartItem[];
-// };
-
-// const initialState: CartState = {
-//   items: typeof window !== "undefined"
-//     ? JSON.parse(localStorage.getItem("cart") || "[]")
-//     : [],
-// };
-
-// const saveLS = (state: CartState) =>
-//   localStorage.setItem("cart", JSON.stringify(state.items));
-
-// const cartSlice = createSlice({
-//   name: "cart",
-//   initialState,
-//   reducers: {
-//     addItem(
-//       state,
-//       action: PayloadAction<{
-//         plant: Plant;
-//         age: AgeKey;
-//         quantity: number;
-//       }>
-//     ) {
-//       const { plant, age, quantity } = action.payload;
-
-//       const existing = state.items.find(
-//         (i) => i.slug === plant.slug && i.age === age
-//       );
-
-//       const price = Number(plant.cena[age].replace(/\D/g, ""));
-
-//       if (existing) {
-//         existing.quantity += quantity;
-//       } else {
-//         state.items.push({
-//           slug: plant.slug,
-//           age,
-//           title: plant.title,
-//           photo: plant.photo[age],
-//           price,
-//           quantity,
-//         });
-//       }
-
-//       saveLS(state);
-//     },
-
-//     updateQuantity(
-//       state,
-//       action: PayloadAction<{ slug: string; age: AgeKey; quantity: number }>
-//     ) {
-//       const { slug, age, quantity } = action.payload;
-
-//       const item = state.items.find(
-//         (i) => i.slug === slug && i.age === age
-//       );
-//       if (!item) return;
-
-//       item.quantity = quantity;
-//       if (item.quantity <= 0) {
-//         state.items = state.items.filter(
-//           (i) => !(i.slug === slug && i.age === age)
-//         );
-//       }
-
-//       saveLS(state);
-//     },
-
-//     clearCart(state) {
-//       state.items = [];
-//       saveLS(state);
-//     },
-//   },
-// });
-
-// export const { addItem, updateQuantity, clearCart } = cartSlice.actions;
-// export default cartSlice.reducer;
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { Plant } from '../data/plants';
+
 //Обновление актуальной цены в корзине из хардкорд даных в data/plants.ts:
 import { plants } from "../data/plants";
 
@@ -141,9 +49,6 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // restoreCart(state) {
-    //   state.items = loadFromLS();
-    // },
     //Обновление актуальной цены в корзине из хардкорд даных в data/plants.ts:
     restoreCart(state) {
       const loaded = loadFromLS();

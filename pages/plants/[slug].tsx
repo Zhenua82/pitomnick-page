@@ -22,16 +22,11 @@ type Props = {
 
 const PlantPage: React.FC<Props> = ({ plant }) => {
     const dispatch = useDispatch();
-    // const [qty, setQty] = React.useState(0);
     const [qty, setQty] = React.useState<Record<string, number>>({});
-    // const ages = plant ? (Object.keys(plant.photo) as Array<keyof typeof plant.photo>) : [];
-    // показываем только 1–5 летние растения, скрываем "взрослое растение":
     const ages = plant
       ? (Object.keys(plant.photo) as Array<keyof typeof plant.photo>)
           .filter((a) => a !== 'взрослое растение')
       : [];
-
-
 //Забираем колличество товара из локалсторадж:
 const cartItems = useSelector((state: RootState) => state.cart.items);
 useEffect(() => {
@@ -47,7 +42,6 @@ useEffect(() => {
       setQty(initialQty);
     }
   }, [cartItems, plant, ages]);
-  // const totalPrice = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
 //Изменение внешнего вида кнопки при добавлении товара:
 const [added, setAdded] = React.useState<Record<string, boolean>>({});
 //Зажатие кнопок добавления и убавления товара:
@@ -72,25 +66,13 @@ const { start: startHold, stop: stopHold } = useHoldButton();
       </Head>
       <div className={styles.header}>
         <h1>{plant.title}:</h1>
-        {/* <p className={styles.short}>{plant.opisanie}</p> */}
           <p>{plant.podrobnoeOpisanie1}</p>
       </div>
 
       <div className={styles.content}>
         <section className={styles.gallery}>
-          {/* {ages.map((age) => (
-            <figure key={age} className={styles.figure}>
-              <img src={plant.photo[age]} alt={`${plant.title} — ${age}`} />
-              <figcaption>
-                <strong>{age}</strong>
-                <div className={styles.price}>{plant.cena[age]}</div>
-              </figcaption>
-            </figure>
-          ))} */}
-
           {ages.map(age => (
             <figure key={age} className={styles.figure}>
-                {/* <img src={plant.photo[age]} alt={`${plant.title} — ${age}`} /> */}
                 <Image
                   src={plant.photo[age]}
                   alt={`${plant.title} — ${age}`}
@@ -103,18 +85,7 @@ const { start: startHold, stop: stopHold } = useHoldButton();
                 <strong>{age}</strong>
                 <div className={styles.price}>{plant.cena[age]}</div>
                 </figcaption>
-
                 {/* управление количеством */}
-                {/* <button onClick={() => 
-                setQty(prev => ({ ...prev, [age]: Math.max(0, (prev[age] || 0) - 1) }))
-                }>−</button>
-
-                <span>{qty[age] || 0}</span>
-
-                <button onClick={() =>
-                setQty(prev => ({ ...prev, [age]: Math.min(1000, (prev[age] || 0) + 1) }))
-                }>+</button> */}
-
                 {/* уменьшение */}
             <button
               className={styles.minus}
@@ -194,7 +165,6 @@ const { start: startHold, stop: stopHold } = useHoldButton();
             ))}
           {/* <button>Позвонить</button> */}
           <div className={styles.figure} style={{height: '100%', textAlign: 'center'}} > 
-            {/* <img style={{height: '94%'}} src={plant.photo['взрослое растение']} alt={`${plant.title} — взрослое растение`} /> */}
             <Image
                   style={{height: '94%'}}
                   src={plant.photo['взрослое растение']}
@@ -206,28 +176,8 @@ const { start: startHold, stop: stopHold } = useHoldButton();
           </div>
         </section>
         <section className={styles.details}>
-          {/* <h2>Подробное описание</h2>
-          <p>{plant.podrobnoeOpisanie}</p>
-
-          <h3>Цены</h3>
-          <ul>
-            {ages.map((age) => (
-              <li key={age}>
-                <strong>{age}:</strong> {plant.cena[age]}
-              </li>
-            ))}
-          </ul>
-
-          <div className={styles.actions}>
-            <button className="btn">Заказать</button>
-            <Link href="/" className="btn btn-ghost">Вернуться</Link>
-          </div> */}
             <CartSmall/>
             <PhoneButton/>
-            {/* <div className={styles.buttonContainer}>
-              <a href="tel:+78910991929" className={styles.phoneButton}></a>
-              <span>Имеются вопросы, звоните!</span>
-            </div> */}
         </section>
       </div>
       <div className={styles.header}>
