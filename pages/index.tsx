@@ -5,6 +5,9 @@ import PlantCard from '../components/PlantCard';
 import { plants } from '../data/plants';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
+import PhoneButton from '@/components/phoneButton';
+import CartSmall from '@/components/cartSmall';
+
 
 const HomePage: React.FC = () => {
   const items = Object.values(plants);
@@ -22,14 +25,14 @@ const HomePage: React.FC = () => {
       </section>
 
       <section>
-        <h2>Наши растения (5-летние)</h2>
+        <h2>Наши растения:</h2>
         <div className={styles.grid}>
           {items.map((p) => (
             <PlantCard
               key={p.slug}
               slug={p.slug}
               title={p.title}
-              image={p.photo['5 летннее растение']}
+              image={p.photo['взрослое растение']}
               opisanie={p.opisanie}
             />
           ))}
@@ -37,12 +40,18 @@ const HomePage: React.FC = () => {
       </section>
 
       <section className={styles.info}>
-        <h2>Почему мы</h2>
-        <ul>
-          <li>Качественные саженцы</li>
-          <li>Доставка и консультации по посадке</li>
-          <li>Гарантии приживаемости на первое время</li>
-        </ul>
+        <div>
+          <h2>Почему мы</h2>
+          <ul>
+            <li>Качественные саженцы</li>
+            <li>Доставка и консультации по посадке</li>
+            <li>Гарантии приживаемости на первое время</li>
+          </ul>
+        </div>
+        <div><CartSmall/></div>
+        <div className={styles.buttonPhone}>
+          <PhoneButton/>
+        </div>
       </section>
     </Layout>
   );

@@ -135,6 +135,19 @@ import Link from 'next/link';
 //Зажатие кнопок добавления и убавления товара:
 import { useHoldButton } from "@/hooks/useHoldButton";
 import { store } from "@/store";
+import Head from 'next/head';
+import Image from "next/image";
+import ButtonOformitj from '@/components/buttonOformitj';
+import { useRouter } from 'next/router';
+
+//Переход на главную страницу:
+const useNavigateToMain = () => {
+  const router = useRouter();
+  const perehodGlavn = () => {
+    router.push('/');
+  };
+  return perehodGlavn;
+};
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -147,10 +160,19 @@ const CartPage: React.FC = () => {
   const total = items.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
   //Зажатие кнопок добавления и убавления товара:
-const { start: startHold, stop: stopHold } = useHoldButton();
+  const { start: startHold, stop: stopHold } = useHoldButton();
+
+  //Переход на главную страницу:
+  const perehodGlavn = useNavigateToMain();
 
   return (
     <Layout>
+      <Head>
+        <title>Корзина покупок в питомнике хвойных растений в Анапе</title>
+        <meta
+          name="description" content="Описание корзины покупок в питомнике хвойных растений в Анапе"
+        />
+      </Head>
       <h1>Корзина</h1>
 
       {items.length === 0 ? (
@@ -162,7 +184,15 @@ const { start: startHold, stop: stopHold } = useHoldButton();
           <div className={styles.list}>
             {items.map((item) => (
               <div key={item.slug + item.age} className={styles.card}>
-                <img src={item.photo} alt={item.title} className={styles.photo} />
+                {/* <img src={item.photo} alt={item.title} className={styles.photo} /> */}
+                <Image
+                                  src={item.photo}
+                                  alt={`${item.title} — ${item.age}`}
+                                  width={300}
+                                  height={400}
+                                  priority={item.age === item.age} 
+                                  className={styles.photo}
+                                />
 
                 <div className={styles.info}>
                   <h3>{item.title}</h3>
@@ -286,10 +316,15 @@ const { start: startHold, stop: stopHold } = useHoldButton();
 
           <div className={styles.totalBox}>
             <h2>Итого: {total} ₽</h2>
-
-            <button className={styles.clearBtn} onClick={() => dispatch(clearCart())}>
-              Очистить корзину
-            </button>
+            <div className={styles.wrapbutton}> 
+              <button className={styles.clearBtn} onClick={() => dispatch(clearCart())}>
+                Очистить корзину
+              </button>
+              <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                <button className={styles.addButton} onClick={perehodGlavn}>Добавить товар в корзину</button>
+              </div>
+              <ButtonOformitj/>
+            </div>
           </div>
         </>
       )}

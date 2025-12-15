@@ -5,6 +5,9 @@
   --accent:#2f855a;
   --muted:#6b7280;
   --container:1100px;
+  --podsvetka: #bafcce;
+  --cnopkaPok: #28a745;
+  --cnopkaNazh: #218838;
 }
 
 *{box-sizing:border-box}
@@ -28,7 +31,7 @@ body{
 /* header */
 .site-header{
   background:linear-gradient(90deg,#0f5132, #134e4a);
-  color:#fff;
+  /* color:#fff; */
   padding:12px 0;
 }
 .header-inner{

@@ -91,7 +91,7 @@
 // export default cartSlice.reducer;
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Plant } from '../data/plants';
+// import { Plant } from '../data/plants';
 //Обновление актуальной цены в корзине из хардкорд даных в data/plants.ts:
 import { plants } from "../data/plants";
 

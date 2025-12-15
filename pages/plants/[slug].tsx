@@ -6,11 +6,14 @@ import { plants, Plant } from '../../data/plants';
 import styles from '../../styles/Plant.module.css';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, restoreCart } from '../../store/cartSlice';
+import { addItem } from '../../store/cartSlice';
 import { RootState } from '@/store';
 //Зажатие кнопок добавления и убавления товара:
 import { useHoldButton } from "@/hooks/useHoldButton";
 import Head from 'next/head';
+import CartSmall from '@/components/cartSmall';
+import PhoneButton from '@/components/phoneButton';
+import Image from "next/image";
 
 
 type Props = {
@@ -21,21 +24,30 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
     const dispatch = useDispatch();
     // const [qty, setQty] = React.useState(0);
     const [qty, setQty] = React.useState<Record<string, number>>({});
+    // const ages = plant ? (Object.keys(plant.photo) as Array<keyof typeof plant.photo>) : [];
+    // показываем только 1–5 летние растения, скрываем "взрослое растение":
+    const ages = plant
+      ? (Object.keys(plant.photo) as Array<keyof typeof plant.photo>)
+          .filter((a) => a !== 'взрослое растение')
+      : [];
+
 
 //Забираем колличество товара из локалсторадж:
 const cartItems = useSelector((state: RootState) => state.cart.items);
 useEffect(() => {
-  const initialQty: Record<string, number> = {};
-  ages.forEach(age => {
-    const item = cartItems.find(
-      i => i.slug === plant!.slug && i.age === age
-    );
-
-    initialQty[age] = item ? item.quantity : 0;
-  });
-
-  setQty(initialQty);
-}, [cartItems, plant!.slug]);
+    if (plant) {
+      const initialQty: Record<string, number> = {};
+      ages.forEach(age => {
+        const item = cartItems.find(
+          i => i.slug === plant!.slug && i.age === age
+        );
+        initialQty[age] = item ? item.quantity : 0;
+      });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setQty(initialQty);
+    }
+  }, [cartItems, plant, ages]);
+  // const totalPrice = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
 //Изменение внешнего вида кнопки при добавлении товара:
 const [added, setAdded] = React.useState<Record<string, boolean>>({});
 //Зажатие кнопок добавления и убавления товара:
@@ -50,8 +62,6 @@ const { start: startHold, stop: stopHold } = useHoldButton();
     );
   }
 
-  const ages = Object.keys(plant.photo) as Array<keyof typeof plant.photo>;
-
   return (
     <Layout>
       <Head>
@@ -61,8 +71,9 @@ const { start: startHold, stop: stopHold } = useHoldButton();
         />
       </Head>
       <div className={styles.header}>
-        <h1>{plant.title}</h1>
-        <p className={styles.short}>{plant.opisanie}</p>
+        <h1>{plant.title}:</h1>
+        {/* <p className={styles.short}>{plant.opisanie}</p> */}
+          <p>{plant.podrobnoeOpisanie1}</p>
       </div>
 
       <div className={styles.content}>
@@ -79,7 +90,14 @@ const { start: startHold, stop: stopHold } = useHoldButton();
 
           {ages.map(age => (
             <figure key={age} className={styles.figure}>
-                <img src={plant.photo[age]} alt={`${plant.title} — ${age}`} />
+                {/* <img src={plant.photo[age]} alt={`${plant.title} — ${age}`} /> */}
+                <Image
+                  src={plant.photo[age]}
+                  alt={`${plant.title} — ${age}`}
+                  width={800}
+                  height={600}
+                  priority={age === '1 летннее растение'} 
+                />
 
                 <figcaption>
                 <strong>{age}</strong>
@@ -99,6 +117,7 @@ const { start: startHold, stop: stopHold } = useHoldButton();
 
                 {/* уменьшение */}
             <button
+              className={styles.minus}
               onMouseDown={() =>
                 startHold(() =>
                   setQty(prev => ({
@@ -125,6 +144,7 @@ const { start: startHold, stop: stopHold } = useHoldButton();
             <span>{qty[age] || 0}</span>
             {/* увеличение */}
             <button
+              className={styles.plus}
               onMouseDown={() =>
                 startHold(() =>
                   setQty(prev => ({
@@ -172,10 +192,21 @@ const { start: startHold, stop: stopHold } = useHoldButton();
             </button>
             </figure>
             ))}
+          {/* <button>Позвонить</button> */}
+          <div className={styles.figure} style={{height: '100%', textAlign: 'center'}} > 
+            {/* <img style={{height: '94%'}} src={plant.photo['взрослое растение']} alt={`${plant.title} — взрослое растение`} /> */}
+            <Image
+                  style={{height: '94%'}}
+                  src={plant.photo['взрослое растение']}
+                  alt={`${plant.title} — взрослое растение`}
+                  width={800}
+                  height={600}
+                />             
+            <strong style={{color: '#6b7280', fontSize: '.95rem'}}>{'взрослое растение'}</strong>
+          </div>
         </section>
-
         <section className={styles.details}>
-          <h2>Подробное описание</h2>
+          {/* <h2>Подробное описание</h2>
           <p>{plant.podrobnoeOpisanie}</p>
 
           <h3>Цены</h3>
@@ -190,8 +221,17 @@ const { start: startHold, stop: stopHold } = useHoldButton();
           <div className={styles.actions}>
             <button className="btn">Заказать</button>
             <Link href="/" className="btn btn-ghost">Вернуться</Link>
-          </div>
+          </div> */}
+            <CartSmall/>
+            <PhoneButton/>
+            {/* <div className={styles.buttonContainer}>
+              <a href="tel:+78910991929" className={styles.phoneButton}></a>
+              <span>Имеются вопросы, звоните!</span>
+            </div> */}
         </section>
+      </div>
+      <div className={styles.header}>
+          <p>{plant.podrobnoeOpisanie2}</p>
       </div>
     </Layout>
   );

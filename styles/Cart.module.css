@@ -15,8 +15,6 @@
 }
 
 .photo {
-  width: 140px;
-  height: 140px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -51,6 +49,9 @@
   background: var(--accent);
   color: white;
   cursor: pointer;
+}
+.qtyRow button:hover {
+  background: rgb(18, 100, 74);
 }
 
 .qtyRow span {
@@ -91,6 +92,29 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.2s;
+}
+.clearBtn:hover {
+  background: #881616;
+}
+
+.wrapbutton{
+  display: flex;
+  justify-content: space-between;
+}
+
+.addButton {
+  /* margin-top: 14px; */
+  background: var(--accent);
+  color: white;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.addButton:hover {
+  background: rgb(18, 100, 74);
 }
 
 /* -- АДАПТИВ ----------------------------------------------------------------- */
@@ -102,26 +126,20 @@
     text-align: center;
   }
 
-  .photo {
-    width: 100%;
-    height: 220px;
-  }
-
   .qtyRow {
     justify-content: center;
   }
 }
 
 @media (max-width: 600px) {
-  .photo {
-    height: 180px;
-  }
-
-  .clearBtn {
-    width: 100%;
-  }
-
   .card {
     padding: 16px;
+  }
+  .wrapbutton{
+    /* display: block;
+    text-align: center; */
+    flex-direction: column; /* чтобы кнопки шли вертикально */
+    align-items: center; /* по центру по горизонтали */
+    gap: 8px; /* расстояние между кнопками, если нужно */
   }
 }

@@ -1,0 +1,269 @@
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.navRow a {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cartButton {
+  position: relative;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+
+.cartCount {
+  background: var(--cnopkaPok);
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* Оверлей для закрытия модалки */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+}
+
+/* === МОДАЛЬНОЕ ОКНО В ПРАВОМ ВЕРХНЕМ УГЛУ === */
+/* .modalWindow {
+  position: fixed;
+  top: 15%;
+  right: 20px;
+  left: auto;
+  bottom: auto;
+  margin: 0;
+  background: #fff;
+  width: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1300;
+  animation: slideIn 0.25s ease-out;
+}
+
+.modalCloseIcon {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #777;
+  transition: 0.2s;
+}
+
+.modalCloseIcon:hover {
+  color: #000;
+}
+
+.orderButton {
+  margin-top: 15px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: #28a745;
+  transition: 0.2s;
+}
+
+.orderButton:hover {
+  background: #218838;
+} */
+
+
+/* === Checkout modal (centered) === */
+.checkoutOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* окно по центру — компактное и адаптивное */
+.checkoutWindow {
+  width: 100%;
+  max-width: 560px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+  position: relative;
+  max-height: 85vh;
+  overflow: auto;
+}
+
+/* Заголовок и подсказки */
+.checkoutHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.checkoutTitle { font-size: 20px; font-weight: 700; }
+.checkoutCloseBtn {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  color: #555;
+}
+
+/* Список товаров в окне */
+.checkoutList {
+  margin: 10px 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.checkoutItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #fafafa;
+  align-items: center;
+}
+.checkoutItem .meta {
+  display: flex;
+  flex-direction: column;
+}
+.checkoutItem .title { font-weight: 600; }
+.checkoutItem .age { color: #666; font-size: 13px; }
+.checkoutItem .qty { font-weight: 700; color: #222; }
+
+/* Итог */
+.checkoutTotal {
+  margin-top: 12px;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Форма телефона */
+.phoneRow {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.phoneInput {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.phoneInput:focus {
+  outline: none;
+  border-color: #2f855a;
+  box-shadow: 0 0 0 4px rgba(47,133,90,0.07);
+}
+
+/* Подсказка под полем */
+.helpText {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Кнопка отправить */
+.sendButton {
+  margin-top: 14px;
+  background: #2f855a;
+  color: #fff;
+  border: none;
+  padding: 11px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.sendButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* мобильная адаптация */
+@media (max-width: 520px) {
+  .checkoutWindow { padding: 14px; max-width: 100%; }
+  .checkoutTitle { font-size: 18px; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cartItem {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.cartItem:last-child {
+  border-bottom: none;
+}
+
+.modalTotal {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.goCart {
+  display: inline-block;
+  margin-top: 12px;
+  color: blue;
+  font-weight: 600;
+}
+
+.modalClose {
+  margin-top: 15px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: none;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .modalWindow {
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+}

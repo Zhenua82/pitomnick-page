@@ -20,12 +20,17 @@
   box-shadow: 0 6px 18px rgba(15,23,42,0.06);
   transition: transform .18s ease, box-shadow .18s ease;
 }
-.card:hover{ transform: translateY(-6px); box-shadow: 0 18px 30px rgba(15,23,42,0.08); }
+.card:hover {
+  transform: scale(1.03) translateY(-6px);
+  box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.2),      /* основная тень */
+      0 0 22px 6px var(--podsvetka);               /* подсветка вокруг */
+}
 
 .cardLink{ color:inherit; text-decoration:none; display:block; height:100%; }
 
 .thumbWrap{
-  height:180px;
+  height:300px;
   overflow:hidden;
   border-radius:8px;
   margin-bottom:12px;
@@ -45,6 +50,20 @@
   color:var(--muted);
   font-size:0.95rem;
 }
+.info{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  background: linear-gradient(0deg, rgba(47,133,90,0.08), transparent);
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:18px;
+  margin-top:14px;
+}
+
+.buttonPhone{
+  display: flex;
+}
 
 /* =========================================
    Адаптация главной страницы
@@ -53,7 +72,7 @@
 /* Планшеты < 900px */
 @media (max-width: 900px) {
   .thumbWrap {
-    height: 160px;
+    height: 320px;
   }
 
   .cardDesc {
@@ -73,10 +92,13 @@
   }
 
   .thumbWrap {
-    height: 140px;
+    height: 340px;
   }
 
   .card {
     padding: 10px;
   }
+  .info{
+  flex-direction: column;
+}
 }
