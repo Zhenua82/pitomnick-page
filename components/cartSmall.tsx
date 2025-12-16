@@ -15,18 +15,15 @@ const CartSmall: React.FC = () => {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <Link href="/cart" className={styles.goCart} style={{textDecoration: 'none'}}><h3>Корзина</h3></Link>
               </div>
-
               <div style={{ marginTop: 12 }}>
                 {cartItems.length === 0 && <p>Корзина пуста</p>}
                 {cartItems.map((item) =>
                   item.quantity > 0 ? (
                     <div key={item.slug + item.age} className={styles.cartItem}>
                       <div className="meta">
-                        {/* <div className="title">{item.title}</div> */}
                         <div className={styles.title}>{item.title}</div>
                         <div className="age">{item.age} - {item.quantity} шт.</div>
                       </div>
-                      {/* <div className="qty">{item.quantity} шт.</div> */}
                     </div>
                   ) : null
                 )}

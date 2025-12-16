@@ -5,14 +5,13 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { restoreCart } from "../store/cartSlice";
 import { RootState } from "../store";
-
 import styles from "./layout.module.css";
-
 import { CheckoutContext } from "./CheckoutContext";
+import ModalZakaz from "./modalZakaz";
+
 
 
 const phoneRegex = /^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
-
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.cart.items);
@@ -68,7 +67,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   if (response.ok) {
     alert("Ваш заказ отправлен! Мы свяжемся с вами.");
     setPhone("");
-    // setCartModal(false);
     setCheckoutOpen(false);
   } else {
     alert("Ошибка отправки. Попробуйте позже.");
@@ -86,7 +84,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Link href="/aboutUs" className="brand">О нас</Link>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <Link href="/cart" className={styles.cartButton} style={{textDecoration: 'none'}}>Корзина 🛒
+              <Link href="/cart" className={styles.cartButton} style={{textDecoration: 'none'}}><span className={styles.korzina}>Корзина</span> 🛒
                 {totalQty > 0 && <span className={styles.cartCount}>{totalQty}</span>}
               </Link>
             </div>
@@ -102,62 +100,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <div>Тел: +7 (900) 000-00-00 · Email: info@example.com</div>
         </div>
       </footer>
-
-      {/* === CHECKOUT MODAL (центральный) === */}
-      {checkoutOpen && (
-        <div className={styles.checkoutOverlay} onClick={closeCheckout}>
-          <div className={styles.checkoutWindow} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.checkoutHeader}>
-              <div className={styles.checkoutTitle}>Оформление заказа</div>
-              <button className={styles.checkoutCloseBtn} onClick={closeCheckout}>×</button>
-            </div>
-
-            <div>
-              {items.filter(it => it.quantity > 0).length === 0 ? (
-                <p>Ваша корзина пуста.</p>
-              ) : (
-                <>
-                  <div className={styles.checkoutList}>
-                    {items.filter(it => it.quantity > 0).map((it) => (
-                      <div key={it.slug + it.age} className={styles.checkoutItem}>
-                        <div className="meta">
-                          <div className="title">{it.title}</div>
-                          <div className="age">Возраст: {it.age}</div>
-                        </div>
-                        <div className="qty">{it.quantity} × {it.price} ₽</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className={styles.checkoutTotal}>Итог: {totalPrice} ₽</div>
-
-                  <div className={styles.phoneRow}>
-                    <label htmlFor="phone">Телефон (формат +7(XXX)XXX-XX-XX)</label>
-                    <input
-                      id="phone"
-                      className={styles.phoneInput}
-                      placeholder="+7(900)000-00-00"
-                      value={phone}
-                      onChange={(e) => {
-                        setPhone(e.target.value);
-                        if (phoneError) validatePhone(e.target.value);
-                      }}
-                    />
-                    <div className={styles.helpText}>
-                      Введите номер телефона для обратной связи, мы Вам перезвоним!
-                    </div>
-                    {phoneError && <div style={{ color: "crimson", marginTop: 6 }}>{phoneError}</div>}
-                    <button className={styles.sendButton} onClick={sendOrder}>
-                      Отправить
-                    </button>
-
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <ModalZakaz
+        checkoutOpen={checkoutOpen}
+        closeCheckout={closeCheckout}
+        items={items}
+        totalPrice={totalPrice}
+        phone={phone}
+        phoneError={phoneError}
+        setPhone={setPhone}
+        validatePhone={validatePhone}
+        sendOrder={sendOrder}
+      />
     </CheckoutContext.Provider>
   );
 };

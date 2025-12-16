@@ -15,7 +15,6 @@ const PlantCard: React.FC<Props> = ({ slug, title, image, opisanie }) => {
     <article className={styles.card}>
       <Link href={`/plants/${slug}`} className={styles.cardLink}>
         <div className={styles.thumbWrap}>
-          {/* <img src={image} alt={`${title} взрослое растение`} className={styles.thumb} /> */}
           <Image
                             src={image}
                             alt={`${title} — взрослое растение`}
