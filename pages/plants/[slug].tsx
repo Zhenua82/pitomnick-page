@@ -2,14 +2,14 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React, { useEffect } from 'react';
 import Layout from '../../components/Layout';
-import { plants, Plant } from '../../data/plants';
+import { plants, Plant, AgeKey } from '../../data/plants';
 import styles from '../../styles/Plant.module.css';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../store/cartSlice';
 import { RootState } from '@/store';
 //Зажатие кнопок добавления и убавления товара:
-import { useHoldButton } from "@/hooks/useHoldButton";
+import { useHoldButton2 } from "@/hooks/useHoldButton2";
 import Head from 'next/head';
 import CartSmall from '@/components/cartSmall';
 import PhoneButton from '@/components/phoneButton';
@@ -23,7 +23,7 @@ type Props = {
 const PlantPage: React.FC<Props> = ({ plant }) => {
     const dispatch = useDispatch();
     const [qty, setQty] = React.useState<Record<string, number>>({});
-    const ages = plant
+    const ages: AgeKey[] = plant
       ? (Object.keys(plant.photo) as Array<keyof typeof plant.photo>)
           .filter((a) => a !== 'взрослое растение')
       : [];
@@ -45,7 +45,30 @@ useEffect(() => {
 //Изменение внешнего вида кнопки при добавлении товара:
 const [added, setAdded] = React.useState<Record<string, boolean>>({});
 //Зажатие кнопок добавления и убавления товара:
-const { start: startHold, stop: stopHold } = useHoldButton();
+const { start, stop } = useHoldButton2();
+// Автоматическое обновление корзины
+  const updateCart = React.useCallback((age: string, newQty: number) => {
+    if (!plant) return;
+    // откладываем dispatch в microtask — он точно выполнится после завершения текущего рендера
+    Promise.resolve().then(() => {
+      dispatch(
+        addItem({
+          slug: plant.slug,
+          age,
+          title: plant.title,
+          // photo: plant.photo[age],
+          quantity: newQty,
+          // price: parseInt(plant.cena[age], 10),
+          photo: plant.photo[age as keyof typeof plant.photo],
+          price: parseInt(plant.cena[age as keyof typeof plant.cena], 10),
+        })
+      );
+    });
+    setAdded((prev) => ({ ...prev, [age]: true }));
+    setTimeout(() => {
+      setAdded((prev) => ({ ...prev, [age]: false }));
+    }, 800);
+  }, [dispatch, plant]);
 
   if (!plant) {
     return (
@@ -88,82 +111,67 @@ const { start: startHold, stop: stopHold } = useHoldButton();
                 {/* управление количеством */}
                 {/* уменьшение */}
             <button
-              className={styles.minus}
+              className={styles.minus}     
               onMouseDown={() =>
-                startHold(() =>
-                  setQty(prev => ({
-                    ...prev,
-                    [age]: Math.max(0, (prev[age] || 0) - 1)
-                  }))
-                )
-              }
-              onMouseUp={stopHold}
-              onMouseLeave={stopHold}
-              onTouchStart={() =>
-                startHold(() =>
-                  setQty(prev => ({
-                    ...prev,
-                    [age]: Math.max(0, (prev[age] || 0) - 1)
-                  }))
-                )
-              }
-              onTouchEnd={stopHold}
-            >
-              −
-            </button>
+                  start(() => {
+                    setQty((prev) => {
+                      const newQty = Math.max(0, (prev[age] || 0) - 1);
+                      updateCart(age, newQty);
+                      return { ...prev, [age]: newQty };
+                    });
+                  })
+                }
+                onMouseUp={stop}
+                onMouseLeave={stop}
+                onTouchStart={() =>
+                  start(() => {
+                    setQty((prev) => {
+                      const newQty = Math.max(0, (prev[age] || 0) - 1);
+                      updateCart(age, newQty);
+                      return { ...prev, [age]: newQty };
+                    });
+                  })
+                }
+                onTouchEnd={stop}
+              >
+                −
+              </button>
             {/* вывод количества */}
             <span>{qty[age] || 0}</span>
             {/* увеличение */}
             <button
               className={styles.plus}
               onMouseDown={() =>
-                startHold(() =>
-                  setQty(prev => ({
-                    ...prev,
-                    [age]: Math.min(1000, (prev[age] || 0) + 1)
-                  }))
-                )
-              }
-              onMouseUp={stopHold}
-              onMouseLeave={stopHold}
-              onTouchStart={() =>
-                startHold(() =>
-                  setQty(prev => ({
-                    ...prev,
-                    [age]: Math.min(1000, (prev[age] || 0) + 1)
-                  }))
-                )
-              }
-              onTouchEnd={stopHold}
-            >
-              +
-            </button>
-
-            <button
-              className={`${styles.addBtn} ${added[age] ? styles.added : ''}`}
-              onClick={() => {
-                dispatch(
-                  addItem({
-                    slug: plant.slug,
-                    age: age,
-                    title: plant.title,
-                    photo: plant.photo[age],
-                    quantity: qty[age] || 0,
-                    price: parseInt(plant.cena[age]),
+                  start(() => {
+                    setQty((prev) => {
+                      const newQty = Math.min(1000, (prev[age] || 0) + 1);
+                      updateCart(age, newQty);
+                      return { ...prev, [age]: newQty };
+                    });
                   })
-                );
-                // визуальный эффект “Добавлено!”
-                setAdded((prev) => ({ ...prev, [age]: true }));
-                setTimeout(() => {
-                  setAdded((prev) => ({ ...prev, [age]: false }));
-                }, 1500);
-              }}
-            >
-              {added[age] ? "Добавлено!" : "Добавить в корзину"}
-            </button>
+                }
+                onMouseUp={stop}
+                onMouseLeave={stop}
+                onTouchStart={() =>
+                  start(() => {
+                    setQty((prev) => {
+                      const newQty = Math.min(1000, (prev[age] || 0) + 1);
+                      updateCart(age, newQty);
+                      return { ...prev, [age]: newQty };
+                    });
+                  })
+                }
+                onTouchEnd={stop}
+              >
+                +
+              </button>
+              {/* Надпись "Добавлено!" */}
+              {added[age] && (
+                <div className={styles.addedFloating}>Добавлено!</div>
+              )}
             </figure>
             ))}
-          {/* <button>Позвонить</button> */}
+          {/* Вставка взрослого растения: */}
           <div className={styles.figure} style={{height: '100%', textAlign: 'center'}} > 
             <Image
                   style={{height: '94%'}}
