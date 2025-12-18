@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    console.log("ENV PASS:", process.env.YANDEX_SMTP_PASSWORD);
+    // console.log("ENV PASS:", process.env.YANDEX_SMTP_PASSWORD);
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Метод не разрешён" });
   }
