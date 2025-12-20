@@ -61,7 +61,8 @@ const CartPage: React.FC = () => {
                                   alt={`${item.title} — ${item.age}`}
                                   width={300}
                                   height={400}
-                                  priority={item.age === item.age} 
+                                  // priority={item.age === item.age} 
+                                  priority={false}
                                   className={styles.photo}
                                 />
 

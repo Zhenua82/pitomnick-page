@@ -21,6 +21,7 @@ const PlantCard: React.FC<Props> = ({ slug, title, image, opisanie }) => {
                             width={800}
                             height={600}
                             className={styles.thumb}
+                            priority={false}
                           />
         </div>
         <h3>{title}</h3>
