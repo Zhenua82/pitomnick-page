@@ -1,5 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import Layout from "../../components/Layout";
 import { plants, Plant, AgeKey } from "../../data/plants";
 import styles from "../../styles/Plant.module.css";
@@ -21,6 +26,10 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
+  /* =========================
+     Available ages
+  ========================= */
+
   const ages = useMemo<AgeKey[]>(() => {
     if (!plant) return [];
     return (Object.keys(plant.photo) as AgeKey[]).filter(
@@ -28,15 +37,23 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
     );
   }, [plant]);
 
+  /* =========================
+     Local state
+  ========================= */
+
   const [qty, setQty] = useState<Record<string, number>>({});
   const [added, setAdded] = useState<Record<string, boolean>>({});
   const { start, stop } = useHoldButton2();
 
-  /** инициализация qty из корзины */
+  /* =========================
+     Init qty from Redux cart
+  ========================= */
+
   useEffect(() => {
     if (!plant) return;
 
     const initial: Record<string, number> = {};
+
     for (const age of ages) {
       const item = cartItems.find(
         (i) => i.slug === plant.slug && i.age === age
@@ -46,6 +63,10 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
 
     setQty(initial);
   }, [plant, ages, cartItems]);
+
+  /* =========================
+     Redux update helper
+  ========================= */
 
   const updateCart = useCallback(
     (age: AgeKey, newQty: number) => {
@@ -57,18 +78,20 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
           age,
           title: plant.title,
           photo: plant.photo[age],
-          price: parseInt(plant.cena[age].replace(/\D/g, ""), 10),
+          price: parseInt(
+            plant.cena[age].replace(/\D/g, ""),
+            10
+          ),
           quantity: newQty,
         })
       );
-
-      setAdded((p) => ({ ...p, [age]: true }));
-      setTimeout(() => {
-        setAdded((p) => ({ ...p, [age]: false }));
-      }, 800);
     },
     [dispatch, plant]
   );
+
+  /* =========================
+     Guards
+  ========================= */
 
   if (!plant) {
     return (
@@ -78,6 +101,10 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
       </Layout>
     );
   }
+
+  /* =========================
+     Render
+  ========================= */
 
   return (
     <Layout>
@@ -96,70 +123,94 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
 
       <div className={styles.content}>
         <section className={styles.gallery}>
-          {ages.map((age) => (
-            <figure key={age} className={styles.figure}>
-              <Image
-                src={plant.photo[age]}
-                alt={`${plant.title} — ${age}`}
-                width={800}
-                height={600}
-                priority={false}
-              />
+          {ages.map((age) => {
+            const currentQty = qty[age] || 0;
 
-              <figcaption>
-                <strong>{age}</strong>
-                <div className={styles.price}>{plant.cena[age]}</div>
-              </figcaption>
+            return (
+              <figure key={age} className={styles.figure}>
+                <Image
+                  src={plant.photo[age]}
+                  alt={`${plant.title} — ${age}`}
+                  width={800}
+                  height={600}
+                />
 
-              <button
-                className={styles.minus}
-                onMouseDown={() =>
-                  start(() => {
-                    setQty((p) => {
-                      const n = Math.max(0, (p[age] || 0) - 1);
-                      updateCart(age, n);
-                      return { ...p, [age]: n };
-                    });
-                  })
-                }
-                onMouseUp={stop}
-                onMouseLeave={stop}
-              >
-                −
-              </button>
+                <figcaption>
+                  <strong>{age}</strong>
+                  <div className={styles.price}>
+                    {plant.cena[age]}
+                  </div>
+                </figcaption>
 
-              <span>{qty[age] || 0}</span>
+                {/* minus */}
+                <button
+                  className={styles.minus}
+                  onMouseDown={() =>
+                    start(() => {
+                      setQty((prev) => {
+                        const newQty = Math.max(0, (prev[age] || 0) - 1);
 
-              <button
-                className={styles.plus}
-                onMouseDown={() =>
-                  start(() => {
-                    setQty((p) => {
-                      const n = Math.min(1000, (p[age] || 0) + 1);
-                      updateCart(age, n);
-                      return { ...p, [age]: n };
-                    });
-                  })
-                }
-                onMouseUp={stop}
-                onMouseLeave={stop}
-              >
-                +
-              </button>
+                        queueMicrotask(() => {
+                          updateCart(age, newQty);
+                        });
 
-              {added[age] && (
-                <div className={styles.addedFloating}>Добавлено!</div>
-              )}
-            </figure>
-          ))}
+                        return { ...prev, [age]: newQty };
+                      });
+                    })
+                  }
+                  onMouseUp={stop}
+                  onMouseLeave={stop}
+                >
+                  −
+                </button>
 
+                <span>{currentQty}</span>
+
+                {/* plus */}
+                <button
+                  className={styles.plus}
+                  onMouseDown={() =>
+                    start(() => {
+                      setQty((prev) => {
+                        const newQty = Math.min(1000, (prev[age] || 0) + 1);
+
+                        queueMicrotask(() => {
+                          updateCart(age, newQty);
+                        });
+
+                        setAdded((p) => ({ ...p, [age]: true }));
+                        setTimeout(() => {
+                          setAdded((p) => ({ ...p, [age]: false }));
+                        }, 800);
+
+                        return { ...prev, [age]: newQty };
+                      });
+                    })
+                  }
+
+                  onMouseUp={stop}
+                  onMouseLeave={stop}
+                >
+                  +
+                </button>
+
+                {added[age] && (
+                  <div className={styles.addedFloating}>
+                    Добавлено!
+                  </div>
+                )}
+              </figure>
+            );
+          })}
+
+          {/* adult plant */}
           <div className={styles.figure}>
             <Image
               src={plant.photo["взрослое растение"]}
               alt={`${plant.title} — взрослое растение`}
               width={800}
               height={600}
-              priority={false}
+              priority
             />
             <strong>взрослое растение</strong>
           </div>
@@ -180,15 +231,24 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
 
 export default PlantPage;
 
+/* =========================
+   SSG
+========================= */
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const slugs = Object.keys(plants);
-  const paths = slugs.map((s) => ({ params: { slug: s } }));
-  return { paths, fallback: false };
+  return {
+    paths: slugs.map((s) => ({ params: { slug: s } })),
+    fallback: false,
+  };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}) => {
   const slug = params?.slug as string;
   const plant = plants[slug] ?? null;
+
   return {
     props: {
       plant,

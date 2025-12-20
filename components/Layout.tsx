@@ -75,6 +75,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const sendOrder = async () => {
     if (!validatePhone(phone)) return;
 
+    // const response = await fetch("/pitomnick-page/api/send-order", {
     const response = await fetch("/api/send-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
