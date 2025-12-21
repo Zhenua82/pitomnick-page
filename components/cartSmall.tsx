@@ -13,7 +13,7 @@ const CartSmall: React.FC = () => {
     return (
         <div className={styles.modalWindow} onClick={(e) => e.stopPropagation()}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Link href="/cart" className={styles.goCart} style={{textDecoration: 'none'}}><h3>Корзина</h3></Link>
+                <Link href="/cart" className={styles.goCart} style={{textDecoration: 'none'}}><h2>Корзина</h2></Link>
               </div>
               <div style={{ marginTop: 12 }}>
                 {cartItems.length === 0 && <p>Корзина пуста</p>}
