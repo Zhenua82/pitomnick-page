@@ -74,7 +74,8 @@ const ModalZakaz: React.FC<Props> = ({
 
             <div className={styles.phoneRow}>
               <label htmlFor="phone">
-                Телефон (формат +7(XXX)XXX-XX-XX)
+                {/* Телефон (формат +7(XXX)XXX-XX-XX) */}
+                Телефон
               </label>
 
               <input
