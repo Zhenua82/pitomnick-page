@@ -10,12 +10,14 @@ import { restoreCart } from "@/store/cartSlice";
 import styles from "./layout.module.css";
 import { CheckoutContext } from "./CheckoutContext";
 import ModalZakaz from "./modalZakaz";
+import sendOrderEmail from "@/handler";
+
 
 /* =========================
    Constants
 ========================= */
 
-const phoneRegex = /^\+7\(\d{3}\)\d{3}-\d{2}-\d{2}$/;
+const phoneRegex = /^(?:\+7|8)(?:\(\d{3}\)(?:\d{3}-\d{2}-\d{2}|\d{7})|\d{10})$/;
 
 /* =========================
    Component
@@ -65,35 +67,54 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const validatePhone = (value: string) => {
     if (!phoneRegex.test(value)) {
-      setPhoneError("Неверный формат. Ожидается: +7(XXX)XXX-XX-XX");
+      setPhoneError("Неверный формат телефона. Примеры: +7(900)123-45-67, 89001234567");
       return false;
     }
     setPhoneError(null);
     return true;
   };
 
+  //Отправка письма через emailjs:
   const sendOrder = async () => {
-    if (!validatePhone(phone)) return;
+  if (!validatePhone(phone)) return;
 
-    // const response = await fetch("/pitomnick-page/api/send-order", {
-    const response = await fetch("/api/send-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        phone,
-        items,
-        totalPrice,
-      }),
+  try {
+    await sendOrderEmail({
+      phone,
+      items,
+      totalPrice,
     });
 
-    if (response.ok) {
-      alert("Ваш заказ отправлен! Мы свяжемся с вами.");
-      setPhone("");
-      setCheckoutOpen(false);
-    } else {
-      alert("Ошибка отправки. Попробуйте позже.");
-    }
-  };
+    alert("Ваш заказ отправлен! Мы свяжемся с вами.");
+    setPhone("");
+    setCheckoutOpen(false);
+  } catch (error) {
+    console.error("Ошибка отправки заказа:", error);
+    alert("Ошибка отправки. Попробуйте позже.");
+  }
+};
+
+//Отправка письма через api с использованием nodemailer:
+  // const sendOrder = async () => {
+  //   if (!validatePhone(phone)) return;
+  //   // const response = await fetch("/pitomnick-page/api/send-order", {
+  //   const response = await fetch("/api/send-order", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       phone,
+  //       items,
+  //       totalPrice,
+  //     }),
+  //   });
+  //   if (response.ok) {
+  //     alert("Ваш заказ отправлен! Мы свяжемся с вами.");
+  //     setPhone("");
+  //     setCheckoutOpen(false);
+  //   } else {
+  //     alert("Ошибка отправки. Попробуйте позже.");
+  //   }
+  // };
 
   /* =========================
      Render
