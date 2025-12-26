@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../store/cartSlice";
 import { RootState } from "@/store";
-import { useHoldButton2 } from "@/hooks/useHoldButton2";
+import { useHoldButton } from "@/hooks/useHoldButton";
 import Head from "next/head";
 import CartSmall from "@/components/cartSmall";
 import PhoneButton from "@/components/phoneButton";
@@ -43,7 +43,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
 
   const [qty, setQty] = useState<Record<string, number>>({});
   const [added, setAdded] = useState<Record<string, boolean>>({});
-  const { start, stop } = useHoldButton2();
+  const { start, stop } = useHoldButton();
 
   /* =========================
      Init qty from Redux cart
@@ -131,7 +131,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
                 <Image
                   src={plant.photo[age]}
                   alt={`${plant.title} — ${age}`}
-                  width={800}
+                  width={300}
                   height={600}
                 />
 
@@ -142,62 +142,82 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
                   </div>
                 </figcaption>
 
-                {/* minus */}
-                {/* <button
-                  className={styles.minus}
-                  onMouseDown={() =>
-                    start(() => {
-                      setQty((prev) => {
-                        const newQty = Math.max(0, (prev[age] || 0) - 1);
+                {/* управление количеством */}
+                {/* уменьшение */}
+            <button
+              className={styles.minus}
+              onMouseDown={() =>
+                start(() =>
+                  setQty(prev => ({
+                    ...prev,
+                    [age]: Math.max(0, (prev[age] || 0) - 1)
+                  }))
+                )
+              }
+              onMouseUp={stop}
+              onMouseLeave={stop}
+              onTouchStart={() =>
+                start(() =>
+                  setQty(prev => ({
+                    ...prev,
+                    [age]: Math.max(0, (prev[age] || 0) - 1)
+                  }))
+                )
+              }
+              onTouchEnd={stop}
+            >
+              −
+            </button>
+            {/* вывод количества */}
+            <span>{qty[age] || 0}</span>
+            {/* увеличение */}
+            <button
+              className={styles.plus}
+              onMouseDown={() =>
+                start(() =>
+                  setQty(prev => ({
+                    ...prev,
+                    [age]: Math.min(1000, (prev[age] || 0) + 1)
+                  }))
+                )
+              }
+              onMouseUp={stop}
+              onMouseLeave={stop}
+              onTouchStart={() =>
+                start(() =>
+                  setQty(prev => ({
+                    ...prev,
+                    [age]: Math.min(1000, (prev[age] || 0) + 1)
+                  }))
+                )
+              }
+              onTouchEnd={stop}
+            >
+              +
+            </button>
 
-                        queueMicrotask(() => {
-                          updateCart(age, newQty);
-                        });
-
-                        return { ...prev, [age]: newQty };
-                      });
-                    })
-                  }
-                  onMouseUp={stop}
-                  onMouseLeave={stop}
-                >
-                  −
-                </button>
-
-                <span>{currentQty}</span>
-
-                <button
-                  className={styles.plus}
-                  onMouseDown={() =>
-                    start(() => {
-                      setQty((prev) => {
-                        const newQty = Math.min(1000, (prev[age] || 0) + 1);
-
-                        queueMicrotask(() => {
-                          updateCart(age, newQty);
-                        });
-
-                        setAdded((p) => ({ ...p, [age]: true }));
-                        setTimeout(() => {
-                          setAdded((p) => ({ ...p, [age]: false }));
-                        }, 800);
-
-                        return { ...prev, [age]: newQty };
-                      });
-                    })
-                  }
-
-                  onMouseUp={stop}
-                  onMouseLeave={stop}
-                >
-                  +
-                </button>
-
-                {added[age] && (
-                  <div className={styles.addedFloating}>
-                    Добавлено!
-                  </div>
-                )} */}
+            <button
+              className={`${styles.addBtn} ${added[age] ? styles.added : ''}`}
+              onClick={() => {
+                dispatch(
+                  addItem({
+                    slug: plant.slug,
+                    age: age,
+                    title: plant.title,
+                    photo: plant.photo[age],
+                    quantity: qty[age] || 0,
+                    price: parseInt(plant.cena[age]),
+                  })
+                );
+                // визуальный эффект “Добавлено!”
+                setAdded((prev) => ({ ...prev, [age]: true }));
+                setTimeout(() => {
+                  setAdded((prev) => ({ ...prev, [age]: false }));
+                }, 1500);
+              }}
+            >
+              {added[age] ? "Добавлено!" : "Добавить в корзину"}
+            </button>
               </figure>
             );
           })}
@@ -207,7 +227,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
             <Image
               src={plant.photo["взрослое растение"]}
               alt={`${plant.title} — взрослое растение`}
-              width={800}
+              width={300}
               height={600}
               priority
             />
