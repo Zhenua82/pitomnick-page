@@ -5,7 +5,8 @@ import Layout from '@/components/Layout';
 import Head from 'next/head';
 import CartSmall from '@/components/cartSmall';
 import PhoneButton from '@/components/phoneButton';
-// import Script from "next/script";
+import PlantsSlider from '@/components/PlantsSlider';
+
 
 
 const AboutPage: React.FC = () => {
@@ -65,6 +66,12 @@ const AboutPage: React.FC = () => {
           <PhoneButton/>
         </div>
       </section>
+
+      <section className={styles.slyder}>
+        <h3>Наши растения:</h3>
+        <PlantsSlider />
+      </section>
+
     </main>
     
     </Layout>

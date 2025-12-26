@@ -99,6 +99,13 @@
 .buttonPhone{
   display: flex;
 }
+.slyder{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(47,133,90,0.08), transparent);
+  padding-top: 30px;
+}
 /* Адаптив карты: */
 @media (max-width: 750px) {
   .mapWrapper {
