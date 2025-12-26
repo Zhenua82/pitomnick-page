@@ -30,20 +30,21 @@
 .cardLink{ color:inherit; text-decoration:none; display:block; height:100%; }
 
 .thumbWrap{
-  height:300px;
+  height:420px;
   overflow:hidden;
   border-radius:8px;
   margin-bottom:12px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(180deg,#e6f3ea,#fff);
+  /* background:linear-gradient(180deg,#e6f3ea,#fff); */
 }
 .thumb{
-  width:100%;
+  width:80%;
   height:100%;
   object-fit:cover;
   display:block;
+  border-radius:8px;
 }
 
 .cardDesc{
@@ -92,7 +93,7 @@
   }
 
   .thumbWrap {
-    height: 340px;
+    height: 440px;
   }
 
   .card {

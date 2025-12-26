@@ -11,6 +11,7 @@ import styles from "./layout.module.css";
 import { CheckoutContext } from "./CheckoutContext";
 import ModalZakaz from "./modalZakaz";
 import sendOrderEmail from "@/handler";
+import sendOrderSMS from "@/SendOrderSMS";
 
 
 /* =========================
@@ -74,7 +75,28 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return true;
   };
 
-  //Отправка письма через emailjs:
+  //Отправка письма на телеграмм бота (нужен Serverless API (для хранения секретов) - например vercel, иначе - не безопасно из-за открытости секретов (они в .env.local)):
+//   const sendOrder = async () => {
+//   if (!validatePhone(phone)) return;
+
+//   try {
+//     await sendOrderSMS({
+//       phone,
+//       items,
+//       totalPrice,
+//     });
+
+//     alert("Ваш заказ отправлен! Мы свяжемся с вами.");
+//     setPhone("");
+//     setCheckoutOpen(false);
+//   } catch (error) {
+//     console.error("Ошибка отправки заказа:", error);
+//     alert("Ошибка отправки. Попробуйте позже.");
+//   }
+// };
+
+
+  //Отправка письма через emailjs - https://dashboard.emailjs.com/admin (подходит для github pages - с открытым ключом сервиса emailjs):
   const sendOrder = async () => {
   if (!validatePhone(phone)) return;
 
@@ -94,7 +116,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 };
 
-//Отправка письма через api с использованием nodemailer:
+//Отправка письма через api с использованием nodemailer (https://id.yandex.ru/security/app-passwords - нужна учетная запись и там можно получить SMTP-пароль):
   // const sendOrder = async () => {
   //   if (!validatePhone(phone)) return;
   //   // const response = await fetch("/pitomnick-page/api/send-order", {

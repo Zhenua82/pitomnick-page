@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
     // console.log("ENV PASS:", process.env.YANDEX_SMTP_PASSWORD);
-    console.log("ENV PASS:", process.env.NODE_ENV);
+    // console.log("ENV PASS:", process.env.NODE_ENV);
     if (process.env.NODE_ENV === 'production') {
       return res.status(403).json({
         error: 'Отправка заказа недоступна в production'

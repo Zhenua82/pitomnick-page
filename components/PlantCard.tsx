@@ -18,8 +18,8 @@ const PlantCard: React.FC<Props> = ({ slug, title, image, opisanie }) => {
           <Image
                             src={image}
                             alt={`${title} — взрослое растение`}
-                            width={800}
-                            height={600}
+                            width={400}
+                            height={800}
                             className={styles.thumb}
                             // priority={false}
                             priority

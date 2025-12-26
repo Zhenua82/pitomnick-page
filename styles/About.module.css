@@ -99,3 +99,9 @@
 .buttonPhone{
   display: flex;
 }
+/* Адаптив карты: */
+@media (max-width: 750px) {
+  .mapWrapper {
+    height: 400px;
+  }
+}
