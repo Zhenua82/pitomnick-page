@@ -143,7 +143,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
                 </figcaption>
 
                 {/* minus */}
-                <button
+                {/* <button
                   className={styles.minus}
                   onMouseDown={() =>
                     start(() => {
@@ -166,7 +166,6 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
 
                 <span>{currentQty}</span>
 
-                {/* plus */}
                 <button
                   className={styles.plus}
                   onMouseDown={() =>
@@ -198,7 +197,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
                   <div className={styles.addedFloating}>
                     Добавлено!
                   </div>
-                )}
+                )} */}
               </figure>
             );
           })}
