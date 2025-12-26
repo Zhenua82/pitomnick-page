@@ -17,18 +17,12 @@ export const plants: Record<string, Plant> = {
     slug: 'spruce',
     title: 'Ель обыкновенная',
     photo: {
-      // '1 летннее растение': 'https://imgur.com/nfInATH.jpg/800x600/?juniper,seedling',
-      // '2 летннее растение': 'https://imgur.com/5ZOtEg9.jpg/800x600/?spruce,young',
-      // '3 летннее растение': 'https://imgur.com/E7gQNm9.jpg/800x600/?spruce,3-year',
-      // '4 летннее растение': 'https://imgur.com/L6ab0Jw.jpg/800x600/?spruce,4-year',
-      // '5 летннее растение': 'https://imgur.com/Wl0YHQr.jpg/800x600/?spruce,5-year',
-      // 'взрослое растение': 'https://imgur.com/8XpQTu8.jpg/800x600',
       '1 летннее растение': 'https://i.imgur.com/nfInATH.png',
       '2 летннее растение': 'https://i.imgur.com/5ZOtEg9.png',
       '3 летннее растение': 'https://i.imgur.com/E7gQNm9.png',
       '4 летннее растение': 'https://i.imgur.com/L6ab0Jw.png',
       '5 летннее растение': 'https://i.imgur.com/Wl0YHQr.png',
-      'взрослое растение': 'https://i.imgur.com/sbPPIHw.png',
+      'взрослое растение': 'https://i.imgur.com/332xE36.png',
     },
     opisanie: 'Ель обыкновенная — популярная хвойная порода с классической конической кроной и густой темно-зеленой хвоей. Отличается быстрым ростом, высокой морозостойкостью и неприхотливостью. Используется в озеленении участков, создании живых изгородей и новогодних композиций. Отлично приживается на солнечных и полутенистых местах, предпочитает умеренно влажную, дренированную почву.',
     podrobnoeOpisanie1:
@@ -78,7 +72,7 @@ export const plants: Record<string, Plant> = {
       '3 летннее растение': 'https://i.imgur.com/IqYRdAZ.jpeg',
       '4 летннее растение': 'https://i.imgur.com/KyFJ2rw.jpeg',
       '5 летннее растение': 'https://i.imgur.com/jKRFDUU.jpeg',
-      'взрослое растение': 'https://i.imgur.com/h7OecJB.png',
+      'взрослое растение': 'https://i.imgur.com/qw53HHo.png',
     },
     opisanie: 'Можжевельник красный — декоративный вечнозелёный хвойный кустарник или небольшое дерево с плотной кроной и жёсткой игольчатой хвоей. Отличается высокой засухо- и морозоустойчивостью, неприхотлив к почвам, хорошо переносит городские условия. Подходит для одиночных и групповых посадок, каменистых садов и ландшафтных композиций.',
     podrobnoeOpisanie1:
