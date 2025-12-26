@@ -131,7 +131,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
                 <Image
                   src={plant.photo[age]}
                   alt={`${plant.title} — ${age}`}
-                  width={800}
+                  width={300}
                   height={600}
                 />
 
@@ -208,7 +208,7 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
             <Image
               src={plant.photo["взрослое растение"]}
               alt={`${plant.title} — взрослое растение`}
-              width={800}
+              width={300}
               height={600}
               priority
             />
