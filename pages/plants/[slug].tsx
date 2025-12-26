@@ -142,7 +142,6 @@ const PlantPage: React.FC<Props> = ({ plant }) => {
                   </div>
                 </figcaption>
 
-
                 {/* minus */}
                 <button
                   className={styles.minus}
