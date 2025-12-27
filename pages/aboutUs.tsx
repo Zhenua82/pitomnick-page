@@ -3,10 +3,8 @@ import YandexMap from '@/components/YandexMap';
 import styles from '@/styles/About.module.css';
 import Layout from '@/components/Layout';
 import Head from 'next/head';
-import CartSmall from '@/components/cartSmall';
 import PhoneButton from '@/components/phoneButton';
 import PlantsSlider from '@/components/PlantsSlider';
-
 
 
 const AboutPage: React.FC = () => {
@@ -61,7 +59,6 @@ const AboutPage: React.FC = () => {
       </section>
 
       <section className={styles.info}>
-        <div><CartSmall/></div>
         <div className={styles.buttonPhone}>
           <PhoneButton/>
         </div>

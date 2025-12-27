@@ -6,7 +6,6 @@ import { plants } from '../data/plants';
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
 import PhoneButton from '@/components/phoneButton';
-import CartSmall from '@/components/cartSmall';
 
 
 const HomePage: React.FC = () => {
@@ -48,7 +47,6 @@ const HomePage: React.FC = () => {
             <li>Гарантии приживаемости на первое время</li>
           </ul>
         </div>
-        <div><CartSmall/></div>
         <div className={styles.buttonPhone}>
           <PhoneButton/>
         </div>
