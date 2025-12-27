@@ -116,7 +116,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }
 };
 
-//Отправка письма через api с использованием nodemailer (https://id.yandex.ru/security/app-passwords - нужна учетная запись и там можно получить SMTP-пароль):
+//Отправка письма через api с использованием nodemailer (https://id.yandex.ru/security/app-passwords - нужна учетная запись и там можно получить SMTP-пароль) - не работает с output: export:
   // const sendOrder = async () => {
   //   if (!validatePhone(phone)) return;
   //   // const response = await fetch("/pitomnick-page/api/send-order", {
