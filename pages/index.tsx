@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
         />
       </Head>
       <section className={styles.hero}>
-        <h1>Питомник хвойных растений</h1>
+        <h1>Питомник хвойных растений</h1><span style={{color: 'red'}}> Pages Router (next 13, github actions, labelCart на кнопках)</span>
         <p>Короткое приветствие — лучшие саженцы ели, сосны и можжевельника.</p>
       </section>
 
