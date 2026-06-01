@@ -177,7 +177,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <footer id="contacts" className="site-footer">
         <div className="container footer-inner">
           <div>© Питомник растений — демонстрационный сайт</div>
-          <div>Тел: +7 (900) 000-00-00 · Email: info@example.com</div>
+          <div>Тел: +7 (911) 099-19-29 · Email: info@example.com</div>
         </div>
       </footer>
 
